@@ -261,7 +261,35 @@
                     "responsive": true,
                     "lengthChange": false,
                     "autoWidth": false,
-                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                    //"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                    "buttons": {
+                        dom: {
+                            button: {
+                                className: 'btn btn-danger'
+                            }
+                        },
+                        buttons: [{
+                                //EXCEL
+                                extend: 'excelHtml5',
+                                text: '<i class="fas fa-file-excel"></i> EXCEL',
+                            },
+                            {
+                                //PRINT
+                                extend: 'print',
+                                text: '<i class="fas fa-print"></i> IMPRIMER',
+                            },
+                            {
+                                //COPY
+                                extend: 'pdf',
+                                text: '<i class="fas fa-file-pdf"></i> PDF',
+                            },
+                            {
+                                //COLVIS
+                                extend: 'colvis',
+                                text: '<i class="fas fa-eye"></i> COLVIS',
+                            }
+                        ]
+                    },
 
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 

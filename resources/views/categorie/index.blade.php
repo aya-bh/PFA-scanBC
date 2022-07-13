@@ -5,7 +5,7 @@
         <div class="card-header">
             <h3 class="card-title">Listes des Catégories</h3>
             <div class="lead">
-                <a  class="btn btn-success text-light btn-sm float-right" data-toggle="modal" 
+                <a  class="btn btn-danger text-light btn-sm float-right" data-toggle="modal" 
                 data-target="#modaldefault" id="buttondefault" 
                 data-attr="{{ route('categorie.create') }}"><i class="fas fa-plus"></i>&nbsp; Ajouter</a>
 
