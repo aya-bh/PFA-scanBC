@@ -7,7 +7,7 @@
         <h2>Permissions</h2>
         <div class="lead">
             
-            <a href="{{ route('permissions.create') }}" class="btn btn-primary btn-sm float-right">Ajouter permissions</a>
+            <a href="{{ route('permissions.create') }}" class="btn btn-primary btn-sm float-right swalDefaultSuccess">Ajouter permissions</a>
         </div>
         
         <div class="mt-2">

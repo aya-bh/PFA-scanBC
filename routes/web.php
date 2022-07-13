@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategorieController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,6 +72,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::get('/{categorie}/edit', 'CategorieController@edit')->name('categorie.edit');
             Route::patch('/{categorie}/update', 'CategorieController@update')->name('categorie.update');
             Route::delete('/{categorie}/delete', 'CategorieController@destroy')->name('categorie.destroy');
+            Route::get('categorie/delete/{id}', [CategorieController::class, 'delete'])->name('categorie.delete');
+
         });
 
 

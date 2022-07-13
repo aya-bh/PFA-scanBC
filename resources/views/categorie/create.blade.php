@@ -1,35 +1,17 @@
-@extends('layouts.app-master')
+<form method="POST" action="{{ route('categorie.store') }}">
+    @csrf
+    <h4 class="modal-title center mb-2">Ajouter Catégorie</h4>
+    <div class="mb-3">
+        <input value="{{ old('nom') }}" type="text" class="form-control" name="nom" placeholder="Nom" required>
 
-@section('content')
-    <div class="bg-light p-4 rounded">
-        <h2> Ajouter Catégorie</h2>
-        <div class="lead">
-            Ajouter Catégorie
-        </div>
-
-        <div class="container mt-4">
-
-            <form method="POST" action="{{ route('categorie.store') }}">
-                @csrf
-                <div class="mb-3">
-                    <label for="nom" class="form-label">nom</label>
-                    <input value="{{ old('nom') }}" 
-                        type="text" 
-                        class="form-control" 
-                        name="nom" 
-                        placeholder="Nom" required>
-
-                    @if ($errors->has('nom'))
-                        <span class="text-danger text-left">{{ $errors->first('nom') }}</span>
-                    @endif
-                </div>
-
-                
-
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
-                <a href="{{ route('categorie.index') }}" class="btn btn-default">Annuler</a>
-            </form>
-        </div>
-
+        @if ($errors->has('nom'))
+            <span class="text-danger text-left">{{ $errors->first('nom') }}</span>
+        @endif
     </div>
-@endsection
+
+
+    <div class="float-right">
+        <button type="submit" class="btn btn-danger">Enregistrer</button>
+        <a href="{{ route('categorie.index') }}" class="btn btn-default">Annuler</a>
+    </div>
+</form>

@@ -43,7 +43,7 @@ class CategorieController extends Controller
             ->withSuccess(__('Catégorie crée avec succée'));
     }
 
-    
+
 
     /**
      * Show the form for editing the specified resource.
@@ -85,5 +85,12 @@ class CategorieController extends Controller
 
         return redirect()->route('categorie.index')
             ->withSuccess(__('Catégorie supprimée avec succée'));
+    }
+
+    public function delete($id)
+    {
+        $categorie = Categorie::find($id);
+
+        return view('categorie.delete', compact('categorie'));
     }
 }

@@ -1,16 +1,48 @@
-@if(Session::get('success', false))
+</script>
+@if (Session::get('success', false))
     <?php $data = Session::get('success'); ?>
     @if (is_array($data))
         @foreach ($data as $msg)
-            <div class="alert alert-success" role="alert">
-                <i class="fa fa-check"></i>
-                {{ $msg }}
-            </div>
+            @section('script')
+                <script>
+                    $(function() {
+                        var Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: '{{ $msg }}'
+                        });
+
+                    });
+                </script>
+            @endsection
         @endforeach
     @else
-        <div class="alert alert-success" role="alert">
-            <i class="fa fa-check"></i>
-            {{ $data }}
-        </div>
+        @section('script')
+            <script>
+                $(function() {
+                    var Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: '{{ $data }}'
+                    });
+
+
+                });
+            </script>
+        @endsection
     @endif
 @endif

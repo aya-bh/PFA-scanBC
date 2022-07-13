@@ -28,12 +28,19 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{!! url('plugins/summernote/summernote-bs4.min.css') !!}">
 
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{!! url('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') !!}">
+    <link rel="stylesheet" href="{!! url('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') !!}">
+    <link rel="stylesheet" href="{!! url('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') !!}">
+    <link rel="stylesheet" href="{!! url('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') !!}">
+
+    <link rel="stylesheet" href="{!! url('plugins/toastr/toastr.min.css') !!}">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
-       
+
         @guest
             <div class="text-end">
                 <a href="{{ route('login.perform') }}" class="btn btn-outline-light me-2">Se connecter</a>
@@ -53,21 +60,30 @@
 
                 <!-- Right navbar links -->
                 <ul class="navbar-nav ml-auto">
-                  <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                      <i class="far fa-bell"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                     
-                      <a href="{{ route('logout.perform') }}" class="dropdown-item">
-                        <i class="fas fa-power-off mr-2"></i>Se déconnecter
-                      </a>
-                                    
-                    </div>
-                  </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <div class="user-panel d-flex">
+                                <div class="image">
+                                    <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                                </div>
+                                <div class="info">
+                                    <div>{{ auth()->user()->name }}&nbsp;</div>
+                                </div>
+                                <i class="fas fa-angle-down m-2"></i>
+                            </div>
+
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+
+                            <a href="{{ route('logout.perform') }}" class="dropdown-item">
+                                <i class="fas fa-power-off mr-2"></i>Se déconnecter
+                            </a>
+
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                            <i class="fas fa-expand-arrows-alt"></i>
+                            <i class="fas fa-expand-arrows-alt m-2"></i>
                         </a>
                     </li>
                 </ul>
@@ -92,15 +108,17 @@
                 <div class="content-header">
                     <div class="container-fluid">
                         <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <h1 class="m-0"> {{ request()->route()->uri }}</h1>
-                            </div><!-- /.col -->
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="#">Accueil</a></li>
-                                    <li class="breadcrumb-item active">{{ request()->route()->uri }}</li>
-                                </ol>
-                            </div><!-- /.col -->
+                            @if (request()->route()->uri != '/')
+                                <div class="col-sm-6">
+                                    <h1 class="m-0"> {{ request()->route()->uri }}</h1>
+                                </div><!-- /.col -->
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-sm-right">
+                                        <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+                                        <li class="breadcrumb-item active">{{ request()->route()->uri }}</li>
+                                    </ol>
+                                </div><!-- /.col -->
+                            @endif
                         </div><!-- /.row -->
                     </div><!-- /.container-fluid -->
                 </div>
@@ -125,6 +143,45 @@
         </div>
 
 
+
+        <div class="modal fade" id="modaldefault">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="mediumBody">
+                        <div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+        <div class="modal fade" id="modalsm">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="smallBody">
+                        <div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
         <!-- jQuery -->
         <script src="{!! url('plugins/jquery/jquery.min.js') !!}"></script>
         <!-- jQuery UI 1.11.4 -->
@@ -139,9 +196,7 @@
         <script src="{!! url('plugins/chart.js/Chart.min.js') !!}"></script>
         <!-- Sparkline -->
         <script src="{!! url('plugins/sparklines/sparkline.js') !!}"></script>
-        <!-- JQVMap -->
-        <script src="{!! url('plugins/jqvmap/jquery.vmap.min.js') !!}"></script>
-        <script src="{!! url('plugins/jqvmap/maps/jquery.vmap.usa.js') !!}"></script>
+
         <!-- jQuery Knob Chart -->
         <script src="{!! url('plugins/jquery-knob/jquery.knob.min.js') !!}"></script>
         <!-- daterangepicker -->
@@ -155,8 +210,120 @@
         <script src="{!! url('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') !!}"></script>
         <!-- AdminLTE App -->
         <script src="{!! url('dist/js/adminlte.js') !!}"></script>
-       
+
         <script src="{!! url('dist/js/pages/dashboard.js') !!}"></script>
+
+        <!-- DataTables  & Plugins -->
+        <script src="{!! url('plugins/datatables/jquery.dataTables.min.js') !!}"></script>
+        <script src="{!! url('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') !!}"></script>
+        <script src="{!! url('plugins/datatables-responsive/js/dataTables.responsive.min.js') !!}"></script>
+        <script src="{!! url('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') !!}"></script>
+        <script src="{!! url('plugins/datatables-buttons/js/dataTables.buttons.min.js') !!}"></script>
+        <script src="{!! url('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') !!}"></script>
+        <script src="{!! url('plugins/jszip/jszip.min.js') !!}"></script>
+        <script src="{!! url('plugins/pdfmake/pdfmake.min.js') !!}"></script>
+        <script src="{!! url('plugins/pdfmake/vfs_fonts.js') !!}"></script>
+        <script src="{!! url('plugins/datatables-buttons/js/buttons.html5.min.js') !!}"></script>
+        <script src="{!! url('plugins/datatables-buttons/js/buttons.print.min.js') !!}"></script>
+        <script src="{!! url('plugins/datatables-buttons/js/buttons.colVis.min.js') !!}"></script>
+        <!-- SweetAlert2 -->
+        <script src="{!! url('plugins/sweetalert2/sweetalert2.min.js') !!}"></script>
+        <!-- Toastr -->
+        <script src="{!! url('plugins/toastr/toastr.min.js') !!}"></script>
+
+        <script>
+            $(function() {
+                $("#example1").DataTable({
+                    "language": {
+                        "sProcessing": "Traitement en cours ...",
+                        "sLengthMenu": "Afficher _MENU_ lignes",
+                        "sZeroRecords": "Aucun résultat trouvé",
+                        "sEmptyTable": "Aucune donnée disponible",
+                        "sInfo": "Lignes _START_ à _END_ sur _TOTAL_",
+                        "sInfoEmpty": "Aucune ligne affichée",
+                        "sInfoFiltered": "(Filtrer un maximum de_MAX_)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Chercher:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Chargement...",
+                        "oPaginate": {
+                            "sFirst": "Premier",
+                            "sLast": "Dernier",
+                            "sNext": "Suivant",
+                            "sPrevious": "Précédent"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Trier par ordre croissant",
+                            "sSortDescending": ": Trier par ordre décroissant"
+                        }
+                    },
+                    "responsive": true,
+                    "lengthChange": false,
+                    "autoWidth": false,
+                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+
+                }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+            });
+        </script>
+        <script>
+            // display a modal (small modal)
+            $(document).on('click', '#smallButton', function(event) {
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    url: href,
+                    beforeSend: function() {
+                        $('#loader').show();
+                    },
+                    // return the result
+                    success: function(result) {
+                        $('#modalsm').modal("show");
+                        $('#smallBody').html(result).show();
+                    },
+                    complete: function() {
+                        $('#loader').hide();
+                    },
+                    error: function(jqXHR, testStatus, error) {
+                        console.log(error);
+                        alert("Page " + href + " cannot open. Error:" + error);
+                        $('#loader').hide();
+                    },
+                    timeout: 8000
+                })
+            });
+
+
+            // display a modal (medium modal)
+            $(document).on('click', '#buttondefault', function(event) {
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    url: href,
+                    beforeSend: function() {
+                        $('#loader').show();
+                    },
+                    // return the result
+                    success: function(result) {
+                        $('#modaldefault').modal("show");
+                        $('#mediumBody').html(result).show();
+                    },
+                    complete: function() {
+                        $('#loader').hide();
+                    },
+                    error: function(jqXHR, testStatus, error) {
+                        console.log(error);
+                        alert("Page " + href + " cannot open. Error:" + error);
+                        $('#loader').hide();
+                    },
+                    timeout: 8000
+                })
+            });
+        </script>
+        @yield('script')
+
+
     @endauth
 
 </body>
