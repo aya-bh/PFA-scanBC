@@ -128,4 +128,11 @@ class RolesController extends Controller
         return redirect()->route('roles.index')
                         ->with('success','Rôle est supprimé avec succé');
     }
+
+    public function delete($id)
+    {
+        $role = Role::find($id);
+
+        return view('roles.delete', compact('role'));
+    }
 }

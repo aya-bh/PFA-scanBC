@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProduitStoreRequest;
+use App\Models\Categorie;
+use App\Models\CodeBarre;
 use App\Models\Produit;
+use App\Models\QRCode;
 use Illuminate\Http\Request;
 
 class ProduitsController extends Controller
@@ -14,9 +18,11 @@ class ProduitsController extends Controller
      */
     public function index()
     {
-        $produits = Produit::latest()->paginate(10);
+        $produits = Produit::all();
+        $codebarres = CodeBarre::all();
+        $qrcodes = QRCode::all();
 
-        return view('produits.index', compact('produits'));
+        return view('produits.index', compact('produits', 'codebarres', 'qrcodes'));
     }
 
     /**
@@ -26,7 +32,8 @@ class ProduitsController extends Controller
      */
     public function create()
     {
-        return view('produits.create');
+        $categories = Categorie::all();
+        return view('produits.create', compact('categories'));
     }
 
     /**
@@ -37,10 +44,24 @@ class ProduitsController extends Controller
      */
     public function store(Request $request)
     {
-        Produit::create(array_merge($request->only('nom', 'description', 'quantite'),[
-            'user_id' => auth()->id()
-        ]));
+        // $codebarre = CodeBarre::create($request->only('imagecodebarre'));
+        $imageName = time() . '.' . $request->imagecodebarre->extension();
+        $request->imagecodebarre->move(public_path('images'), $imageName);
+        $codebarre = CodeBarre::create(["imagecodebarre" => $imageName]);
 
+        $qrcode = QRCode::create($request->only('imageqrcode'));
+
+
+        $produit = Produit::create(array_merge(
+            $request->only('nom', 'description', 'quantite', 'categorie_id'),
+            [
+                'codebarre_id' => $codebarre->id,
+                'qrcode_id' => $qrcode->id,
+            ]
+        ));
+        //dd($codebarre->id);
+        // $produit->codebarre_id= $codebarre->id;
+        //$produit->qrcode_id = $qrcode->id ;
         return redirect()->route('produits.index')
             ->withSuccess(__('Produit crée avec succée'));
     }
@@ -98,5 +119,12 @@ class ProduitsController extends Controller
 
         return redirect()->route('produits.index')
             ->withSuccess(__('Produit supprimé avec succée'));
+    }
+
+    public function delete($id)
+    {
+        $produit = Produit::find($id);
+
+        return view('produits.delete', compact('produit'));
     }
 }

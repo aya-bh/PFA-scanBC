@@ -15,6 +15,6 @@
     <div class="float-right">
 
         <button type="submit" class="btn btn-danger">Enregistrer</button>
-        <a href="{{ route('categorie.index') }}" class="btn btn-default">Annuler</a>
+        <button data-dismiss="modal" type="button" class="btn btn-default">Annuler</button>
     </div>
 </form>

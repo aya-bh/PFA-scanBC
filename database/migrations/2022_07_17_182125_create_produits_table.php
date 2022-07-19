@@ -25,7 +25,7 @@ return new class extends Migration
 
             $table->foreign('categorie_id')
             ->references('id')
-            ->on('codebarre')
+            ->on('categorie')
             ->onDelete('cascade');
 
             $table->foreign('codebarre_id')

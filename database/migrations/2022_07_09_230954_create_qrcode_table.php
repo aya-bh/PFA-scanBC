@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('qrcode', function (Blueprint $table) {
             $table->id();
-            $table->string('nom', 70);
-            $table->binary('image')->nullable();
+            $table->binary('imageqrcode')->nullable();
             $table->timestamps();
         });
     }

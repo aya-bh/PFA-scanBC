@@ -11,7 +11,6 @@ class QRCode extends Model
     protected $table = 'qrcode';
 
     protected $fillable = [
-        'nom',
-        'image'
+        'imageqrcode'
     ];
 }

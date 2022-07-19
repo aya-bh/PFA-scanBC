@@ -5,11 +5,11 @@
         <div class="card-header">
             <h3 class="card-title">Listes des Catégories</h3>
             <div class="lead">
-                <a  class="btn btn-danger text-light btn-sm float-right" data-toggle="modal" 
-                data-target="#modaldefault" id="buttondefault" 
-                data-attr="{{ route('categorie.create') }}"><i class="fas fa-plus"></i>&nbsp; Ajouter</a>
+                <a class="btn btn-danger text-light btn-sm float-right" data-toggle="modal" data-target="#modaldefault"
+                    id="buttondefault" data-attr="{{ route('categorie.create') }}"><i class="fas fa-plus"></i>&nbsp;
+                    Ajouter</a>
 
-             
+
             </div>
 
             <div class="mt-2">
@@ -28,18 +28,23 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $i = 1;
+                    @endphp
                     @foreach ($categories as $key => $categorie)
                         <tr>
-                            <td>{{ $categorie->id }}</td>
+                            <td>{{ $i++ }}</td>
                             <td>{{ $categorie->nom }}</td>
 
                             <td class="float-right">
-                                <a class="btn btn-primary btn-sm p-1" data-toggle="modal" 
-                                data-target="#modaldefault" id="buttondefault" 
-                                data-attr="{{ route('categorie.edit', $categorie->id) }}"><i class="fas fa-edit"></i></a>
+                                <a class="btn btn-primary btn-sm p-1" data-toggle="modal" data-target="#modaldefault"
+                                    id="buttondefault" data-attr="{{ route('categorie.edit', $categorie->id) }}"><i
+                                        class="fas fa-edit"></i></a>
 
-                              
-                                <a class="btn btn-danger btn-sm p-1" data-toggle="modal" id="smallButton" data-target="#modalsm" data-attr="{{ route('categorie.delete', $categorie->id) }}"> <i class="fas fa-trash"></i></a>
+
+                                <a class="btn btn-danger btn-sm p-1" data-toggle="modal" id="smallButton"
+                                    data-target="#modalsm" data-attr="{{ route('categorie.delete', $categorie->id) }}"> <i
+                                        class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                     @endforeach

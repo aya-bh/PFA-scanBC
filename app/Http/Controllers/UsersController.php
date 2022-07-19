@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Hash;
-use Illuminate\Http\Request;
 
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Mail;
 
 class UsersController extends Controller
 {
@@ -17,7 +17,7 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index() 
+    public function index()
     {
         $users = User::latest()->paginate(10);
 
@@ -29,7 +29,7 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function create() 
+    public function create()
     {
         return view('users.create', [
             'roles' => Role::latest()->get()
@@ -45,27 +45,32 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(User $user, StoreUserRequest $request) 
+    public function store(User $user, StoreUserRequest $request)
     {
-        //For demo purposes only. When creating user or inviting a user
-        // you should create a generated random password and email it to the user
-        $user->create(array_merge($request->validated(), [
-            'password' => 'test' 
-        ]));
+       
+        $u = $user->create($request->validated());
 
-        //Hash::make($input['password'])
-        //dd($request->get('role'));
-        $role = Role::where('id', $request->get('role'))->first();
-   
-     
-        $user->assignRole([$role->id]);
-        //$user->assignRole(1);
+        $u->assignRole($request->get('role'));
+        // email data
+        $email_data = array(
+            'name' => $u->name,
+            'email' => $u->email,
+        );
+
+        Mail::send(
+            "emails.usercreated",
+            $u->toArray(),
+            function ($message) use ($email_data) {
+                $message->to($email_data['email'], $email_data['name'])
+                    ->subject("Création d'/ utilisateur");
+            }
+        );
 
         return redirect()->route('users.index')
             ->withSuccess(__('Utilisateur crée avec sucée'));
     }
 
-   
+
 
     /**
      * Edit user data
@@ -74,7 +79,7 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user) 
+    public function edit(User $user)
     {
         return view('users.edit', [
             'user' => $user,
@@ -91,24 +96,38 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update(User $user, UpdateUserRequest $request) 
+    public function update(User $user, UpdateUserRequest $request)
     {
         $user->update($request->validated());
 
         $user->syncRoles($request->get('role'));
+        // email data
+        $email_data = array(
+            'name' => $user->name,
+            'email' => $user->email,
+        );
+
+        Mail::send(
+            "emails.usercreated",
+            $u->toArray(),
+            function ($message) use ($email_data) {
+                $message->to($email_data['email'], $email_data['name'])
+                    ->subject("Création d'/ utilisateur");
+            }
+        );
 
         return redirect()->route('users.index')
             ->withSuccess(__('Utilisater modifié avec succée'));
     }
 
-     /**
+    /**
      * Show user data
      * 
      * @param User $user
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user) 
+    public function show(User $user)
     {
         return view('users.show', [
             'user' => $user
@@ -122,11 +141,18 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user) 
+    public function destroy(User $user)
     {
         $user->delete();
 
         return redirect()->route('users.index')
-            ->withSuccess(__('User deleted successfully.'));
+            ->withSuccess(__('Utilisateur supprimé avec succé'));
+    }
+
+    public function delete($id)
+    {
+        $user = User::find($id);
+
+        return view('users.delete', compact('user'));
     }
 }

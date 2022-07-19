@@ -11,7 +11,6 @@ class CodeBarre extends Model
     protected $table = 'codebarre';
 
     protected $fillable = [
-        'nom',
-        'image'
+        'imagecodebarre'
     ];
 }

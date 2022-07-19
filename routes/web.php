@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\ProduitsController;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +21,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     /**
      * Home Routes
      */
+    
     Route::get('/', 'HomeController@index')->name('home.index');
 
     Route::group(['middleware' => ['guest']], function() {
@@ -44,7 +48,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         /**
          * User Routes
          */
-        Route::group(['prefix' => 'users'], function() {
+        Route::group(['prefix' => 'Utilisateurs'], function() {
             Route::get('/', 'UsersController@index')->name('users.index');
             Route::get('/create', 'UsersController@create')->name('users.create');
             Route::post('/create', 'UsersController@store')->name('users.store');
@@ -52,9 +56,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::get('/{user}/edit', 'UsersController@edit')->name('users.edit');
             Route::patch('/{user}/update', 'UsersController@update')->name('users.update');
             Route::delete('/{user}/delete', 'UsersController@destroy')->name('users.destroy');
+            Route::get('user/delete/{id}', [UsersController::class, 'delete'])->name('users.delete');
+
         });
 
-        Route::group(['prefix' => 'produits'], function() {
+        Route::group(['prefix' => 'Produits'], function() {
             Route::get('/', 'ProduitsController@index')->name('produits.index');
             Route::get('/create', 'ProduitsController@create')->name('produits.create');
             Route::post('/create', 'ProduitsController@store')->name('produits.store');
@@ -62,9 +68,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::get('/{produit}/edit', 'ProduitsController@edit')->name('produits.edit');
             Route::patch('/{produit}/update', 'ProduitsController@update')->name('produits.update');
             Route::delete('/{produit}/delete', 'ProduitsController@destroy')->name('produits.destroy');
+            Route::get('produit/delete/{id}', [ProduitsController::class, 'delete'])->name('produits.delete');
+
         });
 
-        Route::group(['prefix' => 'categorie'], function() {
+        Route::group(['prefix' => 'Catégories'], function() {
             Route::get('/', 'CategorieController@index')->name('categorie.index');
             Route::get('/create', 'CategorieController@create')->name('categorie.create');
             Route::post('/create', 'CategorieController@store')->name('categorie.store');
@@ -79,5 +87,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
         Route::resource('roles', RolesController::class);
         Route::resource('permissions', PermissionsController::class);
+
+        Route::get('role/delete/{id}', [RolesController::class, 'delete'])->name('roles.delete');
+
     });
+
+  
 });

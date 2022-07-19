@@ -35,6 +35,8 @@
     <link rel="stylesheet" href="{!! url('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') !!}">
 
     <link rel="stylesheet" href="{!! url('plugins/toastr/toastr.min.css') !!}">
+    <link rel="stylesheet" href="{!! url('plugins/dropzone/min/dropzone.min.css') !!}">
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

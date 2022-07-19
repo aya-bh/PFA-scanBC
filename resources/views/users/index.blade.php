@@ -5,7 +5,9 @@
         <div class="card-header">
             <h3 class="card-title">Listes des Utilisateurs</h3>
             <div class="lead">
-                <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right swalDefaultSuccess"><i class="fas fa-plus"></i> &nbsp; Ajouter</a>
+                <a class="btn btn-danger text-light btn-sm float-right" data-toggle="modal" data-target="#modaldefault"
+                    id="buttondefault" data-attr="{{ route('users.create') }}"><i class="fas fa-plus"></i>&nbsp;
+                    Ajouter</a>
             </div>
 
             <div class="mt-2">
@@ -39,13 +41,17 @@
                                 @endforeach
                             </td>
                             <td class="float-right">
-                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-warning btn-sm p-1"><i class="fas fa-eye"></i></a>
+                                <a class="btn btn-warning btn-sm p-1" data-toggle="modal" data-target="#modalsm"
+                                id="smallButton" data-attr="{{ route('users.show', $user->id) }}"><i
+                                        class="fas fa-eye"></i></a>
 
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info btn-sm p-1"><i class="fas fa-edit"></i></a>
+                                <a class="btn btn-primary btn-sm p-1" data-toggle="modal" data-target="#modaldefault"
+                                    id="buttondefault" data-attr="{{ route('users.edit', $user->id) }}"><i
+                                        class="fas fa-edit"></i></a>
 
-                                {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
-                                <button type="submit" class="btn btn-danger btn-sm p-1"> <i class="fas fa-trash"></i></button>
-                                {!! Form::close() !!}
+                                <a class="btn btn-danger btn-sm p-1" data-toggle="modal" id="smallButton"
+                                    data-target="#modalsm" data-attr="{{ route('users.delete', $user->id) }}"> <i
+                                        class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                     @endforeach
