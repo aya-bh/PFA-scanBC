@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('produits.store') }}">
+<form method="POST" action="{{ route('produits.store') }}" enctype="multipart/form-data" >
     @csrf
     <h4 class="modal-title center mb-2">Ajouter Produit</h4>
     <div class="mb-3">
@@ -47,7 +47,7 @@
     <div class="mb-3">
         <label for="imagecodebarre" class="form-label">Code à barre</label>
         <div class="custom-file">
-            <input type="file" class="custom-file-input" id="customFile" name="imagecodebarre" required>
+            <input type="file" class="custom-file-input" id="customFile" name="imagecodebarre">
             <input type="hidden" name="codebarre_id">
             <label class="custom-file-label" for="customFile">Sélectionner Image</label>
           </div>
@@ -58,7 +58,7 @@
     <div class="mb-3">
         <label for="imageqrcode" class="form-label">QR CODE</label>
         <div class="custom-file">
-            <input type="file" class="custom-file-input" id="customFile" name="imageqrcode" required>
+            <input type="file" class="custom-file-input" id="customFile" name="imageqrcode">
             <input type="hidden" name="qrcode_id">
             <label class="custom-file-label" for="customFile">Sélectionner Image</label>
           </div>

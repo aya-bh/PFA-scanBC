@@ -44,12 +44,30 @@ class ProduitsController extends Controller
      */
     public function store(Request $request)
     {
-        // $codebarre = CodeBarre::create($request->only('imagecodebarre'));
-        $imageName = time() . '.' . $request->imagecodebarre->extension();
-        $request->imagecodebarre->move(public_path('images'), $imageName);
-        $codebarre = CodeBarre::create(["imagecodebarre" => $imageName]);
 
-        $qrcode = QRCode::create($request->only('imageqrcode'));
+        $codebarre= new CodeBarre();
+
+        if($request->file('imagecodebarre')){
+            $file= $request->file('imagecodebarre');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('imagecodebarre'), $filename);
+            $codebarre['imagecodebarre']= $filename;
+        }
+        $codebarre->save();
+        //$codebarre = CodeBarre::create(["imagecodebarre" => 'img/products/' . $filename]);
+
+
+        $qrcode= new QRCode();
+
+        if($request->file('imageqrcode')){
+            $file= $request->file('imageqrcode');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('imageqrcode'), $filename);
+            $qrcode['imageqrcode']= $filename;
+        }
+        $qrcode->save();
+
+        //$qrcode = QRCode::create($request->only('imageqrcode'));
 
 
         $produit = Produit::create(array_merge(

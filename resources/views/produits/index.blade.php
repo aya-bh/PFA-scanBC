@@ -28,18 +28,31 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                    $i=1 ;
+                    @endphp
                     @foreach ($produits as $key => $produit)
                         <tr>
-                            <td>{{ $produit->id }}</td>
+                            <td>{{ $i++ }}</td>
                             @foreach ($codebarres as $code)
                                 @if ($code->id == $produit->codebarre_id)
                                     <td>
-                                        <img src="{{ asset($produit->codebarre_id ) }}" />
-                                        </td>
+                                        <img src="{{ url('imagecodebarre/' . $code->imagecodebarre) }}"
+                                            style="height: 100px; width: 150px;">
+                                       
+                                    </td>
                                 @endif
                             @endforeach
                             <td>{{ $produit->nom }}</td>
-                            <td>{{ $produit->qrcode_id }}</td>
+                            @foreach ($qrcodes as $code)
+                            @if ($code->id == $produit->qrcode_id)
+                                <td>
+                                    <img src="{{ url('imageqrcode/' . $code->imageqrcode) }}"
+                                        style="height: 100px; width: 100px;">
+                                   
+                                </td>
+                            @endif
+                        @endforeach
                             <td class="float-right">
                                 <a class="btn btn-warning btn-sm p-1" href="{{ route('produits.show', $produit->id) }}"><i
                                         class="fas fa-eye"></i></a>
