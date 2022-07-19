@@ -29,7 +29,7 @@
                 </thead>
                 <tbody>
                     @php
-                    $i=1 ;
+                        $i = 1;
                     @endphp
                     @foreach ($produits as $key => $produit)
                         <tr>
@@ -39,25 +39,29 @@
                                     <td>
                                         <img src="{{ url('imagecodebarre/' . $code->imagecodebarre) }}"
                                             style="height: 100px; width: 150px;">
-                                       
+
                                     </td>
                                 @endif
                             @endforeach
                             <td>{{ $produit->nom }}</td>
                             @foreach ($qrcodes as $code)
-                            @if ($code->id == $produit->qrcode_id)
-                                <td>
-                                    <img src="{{ url('imageqrcode/' . $code->imageqrcode) }}"
-                                        style="height: 100px; width: 100px;">
-                                   
-                                </td>
-                            @endif
-                        @endforeach
+                                @if ($code->id == $produit->qrcode_id)
+                                    <td>
+                                        <img src="{{ url('imageqrcode/' . $code->imageqrcode) }}"
+                                            style="height: 100px; width: 100px;">
+
+                                    </td>
+                                @endif
+                            @endforeach
                             <td class="float-right">
-                                <a class="btn btn-warning btn-sm p-1" href="{{ route('produits.show', $produit->id) }}"><i
+
+                                <a class="btn btn-warning btn-sm p-1" data-toggle="modal" data-target="#modaldefault"
+                                    id="buttondefault" data-attr="{{ route('produits.show', $produit->id) }}"><i
                                         class="fas fa-eye"></i></a>
 
-                                <a class="btn btn-primary btn-sm p-1" href="{{ route('produits.edit', $produit->id) }}"><i
+
+                                <a class="btn btn-primary btn-sm p-1" data-toggle="modal" data-target="#modaldefault"
+                                    id="buttondefault" data-attr="{{ route('produits.edit', $produit->id) }}"><i
                                         class="fas fa-edit"></i></a>
 
                                 <a class="btn btn-danger btn-sm p-1" data-toggle="modal" id="smallButton"

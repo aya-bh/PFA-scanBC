@@ -105,8 +105,10 @@ class ProduitsController extends Controller
      */
     public function edit(Produit $produit)
     {
+        $categories = Categorie::all();
         return view('produits.edit', [
-            'produit' => $produit
+            'produit' => $produit,
+            'categories' => $categories
         ]);
     }
 
